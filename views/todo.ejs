@@ -1,0 +1,42 @@
+<%- include('includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('includes/nav.ejs') %>
+
+    <main>
+        <a href="/add-item"><button class="btn">Add new item</button></a>
+        <h1>My To-do List</h1>
+        <% if (todos.length > 0) { %>
+        <table>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>CreatedOn</th>
+                  <th>UpdatedOn</th>
+                  <th>Status</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+            <% for (let todo of todos) { %>
+            <tr>
+                  <td><%= todo.itemid %></td>
+                  <td><%= todo.itemname %></td>
+                  <td><%= todo.description %></td>
+                  <td><%= todo.createdon %></td>
+                  <td><%= todo.modifiedon %></td>
+                  <td><%= todo.status %></td>
+                  <td><form class="edit-row" action="/edit-item/<%= todo.itemid %>" method="POST"><button class="btn" type="submit">&#9874;</button></form></td>
+                  <td><form class="edit-row" action="/delete-item/<%= todo.itemid %>" method="POST"><button class="btn" type="submit">&#10005;</button></form></td>
+                </tr>
+            <% } %>
+        </table> 
+        <% } else { %>
+            <h3>Looks like there's nothing to do</h3>
+        <% } %>
+
+    </main>
+</body>
+
+</html>
