@@ -22,3 +22,14 @@ exports.getItems = (req, res, next) => {
     });
   });
 };
+
+exports.editItem = (req, res, next) => {
+    const id = req.params.itemid;
+    Item.findById(id, item => {
+        res.render('edit-item', {
+            todo: item,
+            pageTitle: 'Edit Item'
+        });
+    });
+    
+};

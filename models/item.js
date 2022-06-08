@@ -53,5 +53,11 @@ module.exports = class Item {
     static fetchAll(cb) {
         getItemsFromFile(cb);
       }  
-
+    
+    static findById(id, cb) {
+        getItemsFromFile(items => {
+            const item = items.find(p => p.itemid === id); //Return automatically
+            cb(item);
+        });
+    }
 };

@@ -106,3 +106,43 @@ main {
   background-color: #9acdc7;
   color: white;
 }
+
+/* Login form styles */
+
+
+/* Styles for login form */
+.login-block {
+  width: 30%;
+  min-width: 300px;
+  height: 550px;
+  margin: auto;
+  background:#9acdc7;
+  border-radius: 6px;
+  text-align: center;
+  box-shadow: 0px 4px 8px 0px rgba(105, 142, 123, 0.2);
+}
+
+.login-block h2 {
+  margin: 2rem auto;
+  padding-top: 40px;
+}
+
+.login-form-control {
+  width: 100%;
+  margin: auto;
+  padding: 15px 0;
+  color: #574f00;
+}
+
+.login-form-control input {
+  border: none;
+  background:rgb(226, 245, 235);
+  padding: 5px;
+  outline: none;
+  color:#574f00;
+}
+
+.login-form-control input::focus {
+  outline: 2px solid rgb(105, 142, 123);
+  background:rgb(226, 245, 235);
+}

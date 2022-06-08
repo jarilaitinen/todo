@@ -1,0 +1,27 @@
+<%- include('includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('includes/nav.ejs') %>
+
+    <main>
+        <form class="product-form" action="/edit-item" method="POST">
+            <div class="form-control">
+                <label for="itemname">Item Name</label>
+                <input type="text" name="itemname" id="itemname" placeholder="<%= todo.itemname %>"><br>
+                <label for="description">Description</label>
+                <textarea name="description" id="description" rows="8" cols="50"><%= todo.description %></textarea><br>
+                <label for="status">Status</label>
+                <select name="status" id="status">
+                    <option value="notstarted">NotStarted</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="completed">Completed</option>
+                </select><br>
+            </div>
+
+            <button class="btn" type="submit">Save item</button>
+        </form>
+    </main>
+</body>
+
+</html>
