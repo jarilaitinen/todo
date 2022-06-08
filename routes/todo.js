@@ -16,6 +16,8 @@ router.get('/create-account', (req, res, next) => {
     res.render('create-account', { pageTitle: 'Log in'});
 });
 
+
+
 // /add-item => GET
 router.get('/add-item', itemController.getAddItem);
 
@@ -25,8 +27,14 @@ router.post('/add-item', itemController.postAddItem);
 // /edit-item by id
 router.get('/edit-item/:itemid', itemController.editItem);
 
-// /edit-item by id
-// router.post('delete-item/:itemid');
+// /edit-item => POST
+router.post('/edit-item', itemController.postEditItem);
+
+// /delete-item by id
+router.post('/delete-item', itemController.postDeleteItem);
+
+// /api/v1/todos by status
+router.get('/api/v1/todos', itemController.getFilteredItems);
 
 // list home
 router.use('/', itemController.getItems);

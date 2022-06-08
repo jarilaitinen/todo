@@ -5,20 +5,28 @@
     <%- include('includes/nav.ejs') %>
 
     <main>
-        <form class="product-form" action="/edit-item" method="POST">
+        <% if (editing) { %>
+            <form class="product-form" action="/edit-item" method="POST">
+        <% } else { %>
+            <form class="product-form" action="/add-item" method="POST">
+        <% } %>
             <div class="form-control">
                 <label for="itemname">Item Name</label>
-                <input type="text" name="itemname" id="itemname" placeholder="<%= todo.itemname %>"><br>
+                <input type="text" name="itemname" id="itemname" value="<% if (editing) { %><%= todo.itemname %><% } else { %> <% }%>"><br>
                 <label for="description">Description</label>
-                <textarea name="description" id="description" rows="8" cols="50"><%= todo.description %></textarea><br>
-                <label for="status">Status</label>
+                <textarea name="description" id="description" rows="8" cols="50"><% if (editing) { %><%= todo.description %><% } else { %> <% }%></textarea><br>
+                <% if (editing) { %>
+                <label for="status">Status</label> 
                 <select name="status" id="status">
                     <option value="notstarted">NotStarted</option>
                     <option value="ongoing">Ongoing</option>
                     <option value="completed">Completed</option>
-                </select><br>
+                </select><br> <% } %>
             </div>
-
+            <% if (editing) { %>
+                <input type="hidden" name="itemid" value="<%= todo.itemid %>">
+                <input type="hidden" name="createdon" value="<%= todo.createdon %>">
+            <% } %>
             <button class="btn" type="submit">Save item</button>
         </form>
     </main>

@@ -11,6 +11,16 @@
         </div>
         <div id="list-content">
             <h1>My To-do List</h1>
+            <form action="/api/v1/todos" method="GET">
+                <label for="status">Show items by status:</label>
+                <select id="status" name="status">
+                    <option value="notstarted">not started</option>
+                    <option value="ongoing">ongoing</option>
+                    <option value="completed">completed</option>
+                    <option value="notstarted+ongoing+completed">all</option>
+                </select>
+                <button type="submit">Show my to-dos</button>
+            </form>
             <% if (todos.length > 0) { %>
             <table>
                     <tr>
@@ -31,8 +41,13 @@
                     <td><%= todo.createdon %></td>
                     <td><%= todo.modifiedon %></td>
                     <td><%= todo.status %></td>
-                    <td><form class="edit-row" action="/edit-item/<%= todo.itemid %>" method="GET"><button class="btn" type="submit">&#9874;</button></form></td>
-                    <td><form class="edit-row" action="/delete-item/<%= todo.itemid %>" method="POST"><button class="btn" type="submit">&#10005;</button></form></td>
+                    <td><a href="/edit-item/<%= todo.itemid %>?edit=true"><button class="btn" type="submit">&#9874;</button></a></td>
+                    <td>
+                        <form class="edit-row" action="/delete-item" method="POST">
+                            <input type="hidden" value="<%= todo.itemid %>" name="itemid">
+                            <button class="btn" type="submit">&#10005;</button>
+                        </form>
+                    </td>
                     </tr>
                 <% } %>
             </table> 

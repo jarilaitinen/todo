@@ -1,5 +1,8 @@
+const { resolveSoa } = require('dns');
 const fs = require('fs');
 const path = require('path');
+
+const db = require('../util/database')
 
 const { 
     v1: uuidv1,
@@ -12,52 +15,52 @@ const p = path.join(
     'items.json'
 );
 
-var currentdate = new Date();
 
 /// Temporary: Read list items from JSON file  
-const getItemsFromFile = cb => {
-    fs.readFile(p, (err, fileContent) => {
-      if (err) {
-        cb([]);
-      } else {
-        cb(JSON.parse(fileContent));
-      }
-    });
+function getItemsFromDb() {
+  return db.query('SELECT * FROM todo');   
   };
 
 module.exports = class Item {
-    constructor(itemname, description) {
-    this.itemid = uuidv1();
+    constructor(itemid, itemname, description, createdon, modifiedon, status) {
+    this.itemid = itemid;
     this.itemname = itemname;
     this.description = description;
-    this.userid = 'someuser';
-    this.createdon = currentdate.getDate() + "/"
-    + (currentdate.getMonth()+1)  + "/" 
-    + currentdate.getFullYear() + " "  
-    + currentdate.getHours() + ":"  
-    + currentdate.getMinutes() + ":" 
-    + currentdate.getSeconds();
-    this.modifiedon = null;
-    this.status = 'NotStarted';
+    this.userid = 1;
+    this.createdon = createdon;
+    this.modifiedon = modifiedon;
+    this.status = status;
     }
 
     save() {
-        getItemsFromFile(items => {
-          items.push(this);
-          fs.writeFile(p, JSON.stringify(items), err => {
-            console.log(err);
-          });
-        });
-      }
-
-    static fetchAll(cb) {
-        getItemsFromFile(cb);
-      }  
+        if (this.itemid) {
+          const editquery = {
+            text: 'UPDATE todo SET (itemname, description, modifiedon, status) = ($1, $2, $3, $4) WHERE itemid = $5',
+            values: [this.itemname, this.description, this.modifiedon, this.status, this.itemid],
+          }
+          return db.query(editquery);
+        } else {
+        this.itemid = uuidv1();
+        const newquery = {
+          text: 'INSERT INTO todo (itemid, itemname, description, userid, createdon, modifiedon, status) VALUES($1, $2, $3, $4, $5, $6, $7)',
+          values: [this.itemid, this.itemname, this.description, this.userid, this.createdon, this.modifiedon, this.status],
+          }
+          return db.query(newquery); }
+        }  
     
-    static findById(id, cb) {
-        getItemsFromFile(items => {
-            const item = items.find(p => p.itemid === id); //Return automatically
-            cb(item);
-        });
+    static deleteById(id) {
+      return db.query('DELETE FROM todo where itemid = $1',[id]);
+    }
+
+    static fetchAll() {
+      return db.query('SELECT * FROM todo');  
+    }
+    
+    static fetchByStatus(status) {
+      return db.query('SELECT * FROM todo where status = $1',[status]);  
+    }
+    
+    static findById(id) {
+      return db.query('SELECT * FROM todo where itemid = $1',[id]);
     }
 };
