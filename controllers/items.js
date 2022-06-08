@@ -38,8 +38,8 @@ exports.getItems = (req, res, next) => {
 };
 
 exports.getFilteredItems = (req, res, next) => {
-  filter = req.params.status;
-  console.log(filter);
+  filter = req.query.status;
+  if (filter !== 'all') {
   Item.fetchByStatus(filter)
   .then((result) => {
     //console.log(result.rows);
@@ -49,6 +49,15 @@ exports.getFilteredItems = (req, res, next) => {
   });
 })
   .catch(err => console.log(err));
+} else Item.fetchAll()
+.then((result) => {
+  //console.log(result.rows);
+  res.render('todo', {
+    todos: result.rows,
+    pageTitle: 'To-do list'
+});
+})
+.catch(err => console.log(err));  
 };
 
 
