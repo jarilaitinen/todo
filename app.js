@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 const sequelize = require ('./util/database');
+
+var SequelizeStore = require("connect-session-sequelize")(session.Store);
+
 const Item = require('./models/item');
 const User = require('./models/user');
 
@@ -20,19 +23,28 @@ const todoRoutes = require('./routes/todo');
 const authRoutes = require('./routes/auth');
 const { truncateSync } = require('fs');
 
+var sessionStore = new SequelizeStore({
+    db: sequelize,
+  });
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
-app.use(session({secret: 'A fluffy Juju cat', resave: false, saveUninitialized: false}));
+app.use(session({
+    store: sessionStore,
+    secret: 'A fluffy Juju cat', 
+    resave: false, 
+    saveUninitialized: false
+}));
 
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
     User.findByPk(1)
      .then(user => {
          req.user = user;
          next();
      })
      .catch(err => console.log(err));
-});
+}); */
 
 app.use(authRoutes);
 app.use(todoRoutes);

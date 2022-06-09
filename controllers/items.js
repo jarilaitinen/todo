@@ -1,5 +1,6 @@
 const Item = require('../models/item');
 const User = require('../models/user');
+var session = require('express-session');
 
 exports.getAddItem = (req, res, next) => {
     res.render('edit-item', {
@@ -12,7 +13,7 @@ exports.getAddItem = (req, res, next) => {
 exports.postAddItem = (req, res, next) => {
     const description = req.body.description;
     const itemname = req.body.itemname;
-    req.user
+    req.session.user
     .createItem({
       itemname: itemname,
       description: description,
@@ -26,7 +27,7 @@ exports.postAddItem = (req, res, next) => {
 };
 
 exports.getItems = (req, res, next) => {
-  req.user
+  req.session.user
   .getItems()
   .then(result => {
     res.render('todo', {
@@ -40,7 +41,7 @@ exports.getItems = (req, res, next) => {
 exports.getFilteredItems = (req, res, next) => {
   filter = req.query.taskstatus;
   if (filter !== 'all') {
-  req.user
+  req.session.user
   .getItems({
     where: {
       taskstatus: filter
@@ -54,7 +55,7 @@ exports.getFilteredItems = (req, res, next) => {
   });
 })
   .catch(err => console.log(err));
-} else req.user.getItems().then(result => {
+} else req.session.user.getItems().then(result => {
   res.render('todo', {
     todos: result,
     pageTitle: 'To-do list',
@@ -67,8 +68,7 @@ exports.getFilteredItems = (req, res, next) => {
 exports.editItem = (req, res, next) => {
     const editMode = req.query.edit;
     const itemid = req.params.id;
-    req.user
-      .getItems({ where: {id: itemid}})
+    req.session.user.getItems({ where: {id: itemid}})
     .then(result => {
       console.log(result);
       const item = result[0];

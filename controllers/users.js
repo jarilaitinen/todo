@@ -2,6 +2,19 @@ const { user } = require('pg/lib/defaults');
 const Item = require('../models/item');
 const User = require('../models/user');
 
+exports.postLogin = (req, res, next) => {
+        User.findByPk(1)
+          .then((user) => {
+            req.session.isAuthenticated = true;
+            req.session.user = user;
+            req.session.save((err) => {
+              console.log(err);
+              res.redirect("/");
+            });
+          })
+          .catch((error) => console.log(error));
+      };
+
 
 exports.putNewPassword = (req, res, next) => {
     const id = req.body.userId;

@@ -2,9 +2,11 @@ const express = require('express');
 
 const cookieParser = require('cookie-parser');
 
-const itemController = require('../controllers/users');
+const userController = require('../controllers/users');
 
 const router = express.Router();
+
+const User = require('../models/user');
 
 router.use(cookieParser());
 
@@ -17,14 +19,14 @@ router.get('/login', (req, res, next) => {
         });
 });
 
-router.post('/api/v1/signin',(req, res, next) => {
-    req.session.isAuthenticated = true;
-    res.redirect('/');
-});
+// post login
+router.post('/api/v1/signin', userController.postLogin);
 
+// post logout
 router.post('/api/v1/signout',(req, res, next) => {
-    res.clearCookie('isAuthenticated');
-    res.redirect('/');
+    req.session.destroy(() => {
+        res.redirect('/');  
+    });  
 });
 
 // /create-account
