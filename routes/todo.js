@@ -11,12 +11,18 @@ router.get('/login', (req, res, next) => {
      res.render('login', { pageTitle: 'Log in'});
 });
 
-// /login
+router.post('/api/v1/signin', (req, res, next) => {
+    // login user
+}); 
+
+// /create-account
 router.get('/create-account', (req, res, next) => {
     res.render('create-account', { pageTitle: 'Log in'});
 });
 
-
+router.post('/api/v1/signup', (req, res, next) => {
+    // Sign up user
+}); 
 
 // /add-item => GET
 router.get('/add-item', itemController.getAddItem);
@@ -25,7 +31,7 @@ router.get('/add-item', itemController.getAddItem);
 router.post('/add-item', itemController.postAddItem);
 
 // /edit-item by id
-router.get('/edit-item/:itemid', itemController.editItem);
+router.get('/edit-item/:id', itemController.editItem);
 
 // /edit-item => POST
 router.post('/edit-item', itemController.postEditItem);

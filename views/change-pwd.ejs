@@ -1,0 +1,28 @@
+<%- include('includes/head.ejs') %>
+</head>
+<body>
+    <main>
+        <div class="login-block">
+        <h2>Change your password</h2>
+        
+            <form class="login-form" action="/api/v1/changePassword" method="PUT">
+                <div class="login-form-control">
+                    <input type="hidden" value="userId">
+                    <label for="pwd">Old password</label><br>
+                    <input id="pwd" type="password" name="pwd"><br>
+                    <label for="newpwd">New password</label><br>
+                    <input id="newpwd" type="password" name="newpwd"><br>
+                    <label for="passver">Retype password</label><br>
+                    <input id="passver" type="password" name="passver"><br>
+                    <button class="btn" type="submit">Change password</button>
+                </div>
+            </form>
+            
+        </div>
+
+
+<!-- Page scripts -->   
+
+
+</body>
+</html>

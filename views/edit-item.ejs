@@ -24,7 +24,7 @@
                 </select><br> <% } %>
             </div>
             <% if (editing) { %>
-                <input type="hidden" name="itemid" value="<%= todo.itemid %>">
+                <input type="hidden" name="id" value="<%= todo.id %>">
                 <input type="hidden" name="createdon" value="<%= todo.createdon %>">
             <% } %>
             <button class="btn" type="submit">Save item</button>
