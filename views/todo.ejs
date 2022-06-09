@@ -5,15 +5,19 @@
     <%- include('includes/nav.ejs') %>
 
     <main>
+        <% if (!isAuthenticated) { %>
         <div id="loggedout-content">
             <h1> To Do list app</h1>
             <p> You must have an account to use this app. Please <a href="/login">log in</a> or <a href="/create-account">create an account to continue.</a> </p>
         </div>
+        <% } %>
+
+        <% if (isAuthenticated) { %>
         <div id="list-content">
             <h1>My To-do List</h1>
             <form action="/api/v1/todos" method="GET">
-                <label for="status">Show items by status:</label>
-                <select id="status" name="status">
+                <label for="taskstatus">Show items by status:</label>
+                <select id="taskstatus" name="taskstatus">
                     <option value="notstarted">not started</option>
                     <option value="ongoing">ongoing</option>
                     <option value="completed">completed</option>
@@ -27,24 +31,24 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>
-                    <th>CreatedOn</th>
-                    <th>UpdatedOn</th>
+                    <th>Created</th>
+                    <th>Updated</th>
                     <th>Status</th>
                     <th>Edit</th>
                     <th>Delete</th>
                     </tr>
                 <% for (let todo of todos) { %>
                 <tr>
-                    <td><%= todo.itemid %></td>
+                    <td><%= todo.id %></td>
                     <td><%= todo.itemname %></td>
                     <td><%= todo.description %></td>
-                    <td><%= todo.createdon %></td>
-                    <td><%= todo.modifiedon %></td>
-                    <td><%= todo.status %></td>
-                    <td><a href="/edit-item/<%= todo.itemid %>?edit=true"><button class="btn" type="submit">&#9874;</button></a></td>
+                    <td><%= todo.createdAt %></td>
+                    <td><%= todo.updatedAt %></td>
+                    <td><%= todo.taskstatus %></td>
+                    <td><a href="/edit-item/<%= todo.id %>?edit=true"><button class="btn" type="submit">&#9874;</button></a></td>
                     <td>
                         <form class="edit-row" action="/delete-item" method="POST">
-                            <input type="hidden" value="<%= todo.itemid %>" name="itemid">
+                            <input type="hidden" value="<%= todo.id %>" name="id">
                             <button class="btn" type="submit">&#10005;</button>
                         </form>
                     </td>
@@ -56,6 +60,7 @@
             <% } %>
             <a href="/add-item"><button class="btn">Add new item</button></a>
         </div>
+        <% } %>
     </main>
 </body>
 

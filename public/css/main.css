@@ -28,6 +28,16 @@ main {
   align-items: center;
 }
 
+.main-header__button {
+  font: inherit;
+  border: none;
+  color: white;
+  cursor: pointer;
+  background: none;
+  margin: 0;
+  padding: 0;
+}
+
 .main-header__item-list {
   list-style: none;
   margin: 0;
@@ -101,13 +111,13 @@ main {
   cursor: pointer;
 }
 
+
 .btn:hover,
 .btn:active {
   background-color: #9acdc7;
   color: white;
 }
 
-/* Login form styles */
 
 
 /* Styles for login form */
