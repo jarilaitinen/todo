@@ -13,11 +13,12 @@ exports.getAddItem = (req, res, next) => {
 exports.postAddItem = (req, res, next) => {
     const description = req.body.description;
     const itemname = req.body.itemname;
-    req.session.user
-    .createItem({
+    Item
+    .create({
       itemname: itemname,
       description: description,
-      taskstatus: 'notstarted'
+      taskstatus: 'notstarted',
+      userId: req.session.user.id
     })
     .then((result) => {
       console.log(result); 
@@ -27,8 +28,8 @@ exports.postAddItem = (req, res, next) => {
 };
 
 exports.getItems = (req, res, next) => {
-  req.session.user
-  .getItems()
+  if (req.session.isAuthenticated) {
+  Item.findAll({ where: {userId: req.session.user.id }})
   .then(result => {
     res.render('todo', {
       todos: result,
@@ -36,14 +37,20 @@ exports.getItems = (req, res, next) => {
       isAuthenticated: req.session.isAuthenticated
   });
   }).catch(err => console.log(err));
+  } else {
+    res.render('todo', {
+      pageTitle: 'To-do list',
+      isAuthenticated: false
+    });
+  }
 };
 
 exports.getFilteredItems = (req, res, next) => {
   filter = req.query.taskstatus;
   if (filter !== 'all') {
-  req.session.user
-  .getItems({
+  Item.findAll({
     where: {
+      userId: req.session.user.id,
       taskstatus: filter
     }
   })
@@ -55,7 +62,8 @@ exports.getFilteredItems = (req, res, next) => {
   });
 })
   .catch(err => console.log(err));
-} else req.session.user.getItems().then(result => {
+} else Item.findAll({ where: {userId: req.session.user.id }})
+  .then(result => {
   res.render('todo', {
     todos: result,
     pageTitle: 'To-do list',
@@ -68,7 +76,7 @@ exports.getFilteredItems = (req, res, next) => {
 exports.editItem = (req, res, next) => {
     const editMode = req.query.edit;
     const itemid = req.params.id;
-    req.session.user.getItems({ where: {id: itemid}})
+    Item.findByPk(itemid)
     .then(result => {
       console.log(result);
       const item = result[0];
