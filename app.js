@@ -38,12 +38,15 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
+    if (req.session.user) 
+    {
     User.findByPk(req.session.user.id)
      .then(user => {
          req.user = user;
          next();
      })
      .catch(err => console.log(err));
+    } else { next(); }
 });
 
 app.use(authRoutes);

@@ -30,20 +30,10 @@ router.post('/api/v1/signout',(req, res, next) => {
 });
 
 // /create-account
-router.get('/create-account', (req, res, next) => {
-    const isAuthenticated = req.session.isAuthenticated
-    if (isAuthenticated === 'true') { 
-        res.redirect('/'); 
-    } else {
-    res.render('create-account', { 
-        pageTitle: 'Log in',
-    }); 
-    }
-});
+router.get('/create-account', userController.getSignUp);
 
-router.post('/api/v1/signup', (req, res, next) => {
-    // Sign up user
-});
+// create new user
+router.post('/api/v1/signup', userController.postSignUp);
 
 // /change-pwd
 router.get('/change-pwd', (req, res, next) => {

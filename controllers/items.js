@@ -29,7 +29,7 @@ exports.postAddItem = (req, res, next) => {
 
 exports.getItems = (req, res, next) => {
   if (req.session.isAuthenticated) {
-    req.user.getItems()
+    req.user.getItems({ where: { userId: req.session.user.id }})
   .then(result => {
     res.render('todo', {
       todos: result,
@@ -61,7 +61,7 @@ exports.getFilteredItems = (req, res, next) => {
   });
 })
   .catch(err => console.log(err));
-} else req.user.getItems()
+} else req.user.getItems({ where: { userId: req.session.user.id }})
   .then(result => {
   res.render('todo', {
     todos: result,
