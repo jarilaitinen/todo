@@ -5,9 +5,8 @@
         <div class="login-block">
         <h2>Change your password</h2>
         
-            <form class="login-form" action="/api/v1/changePassword" method="PUT">
+            <form class="login-form" action="/api/v1/changePassword" method="POST">
                 <div class="login-form-control">
-                    <input type="hidden" value="userId">
                     <label for="pwd">Old password</label><br>
                     <input id="pwd" type="password" name="pwd"><br>
                     <label for="newpwd">New password</label><br>

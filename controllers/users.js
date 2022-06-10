@@ -17,7 +17,7 @@ exports.postLogin = (req, res, next) => {
 
 
 exports.putNewPassword = (req, res, next) => {
-    const id = req.body.userId;
+    const id = req.session.user.id;
     const oldPwd = req.body.pwd;
     const newPwd = req.body.newpwd;
     const passVer = req.body.passver;
@@ -25,7 +25,7 @@ exports.putNewPassword = (req, res, next) => {
         console.log('New passwords did not match');
         res.redirect('/change-pwd');
     }
-    console.log(id, updatedName, updatedDes, updatedStatus);
+    console.log(id, oldPwd, newPwd);
     User.findByPk(id).then(user => {
         if (user.pwd === oldPwd) {
             user.pwd = newPwd;

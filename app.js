@@ -37,14 +37,14 @@ app.use(session({
     saveUninitialized: false
 }));
 
-/* app.use((req, res, next) => {
-    User.findByPk(1)
+app.use((req, res, next) => {
+    User.findByPk(req.session.user.id)
      .then(user => {
          req.user = user;
          next();
      })
      .catch(err => console.log(err));
-}); */
+});
 
 app.use(authRoutes);
 app.use(todoRoutes);

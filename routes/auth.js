@@ -53,8 +53,7 @@ router.get('/change-pwd', (req, res, next) => {
     });
 });
 
-router.put('/api/v1/changePassword', (req, res, next) => {
-    // Change user pwd
-});
+// change password
+router.post('/api/v1/changePassword', userController.putNewPassword);
 
 module.exports = router;

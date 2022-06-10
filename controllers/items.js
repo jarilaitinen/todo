@@ -13,8 +13,8 @@ exports.getAddItem = (req, res, next) => {
 exports.postAddItem = (req, res, next) => {
     const description = req.body.description;
     const itemname = req.body.itemname;
-    Item
-    .create({
+    req.user
+    .createItem({
       itemname: itemname,
       description: description,
       taskstatus: 'notstarted',
@@ -29,7 +29,7 @@ exports.postAddItem = (req, res, next) => {
 
 exports.getItems = (req, res, next) => {
   if (req.session.isAuthenticated) {
-  Item.findAll({ where: {userId: req.session.user.id }})
+    req.user.getItems()
   .then(result => {
     res.render('todo', {
       todos: result,
@@ -48,9 +48,8 @@ exports.getItems = (req, res, next) => {
 exports.getFilteredItems = (req, res, next) => {
   filter = req.query.taskstatus;
   if (filter !== 'all') {
-  Item.findAll({
+  req.user.getItems({
     where: {
-      userId: req.session.user.id,
       taskstatus: filter
     }
   })
@@ -62,7 +61,7 @@ exports.getFilteredItems = (req, res, next) => {
   });
 })
   .catch(err => console.log(err));
-} else Item.findAll({ where: {userId: req.session.user.id }})
+} else req.user.getItems()
   .then(result => {
   res.render('todo', {
     todos: result,
@@ -79,14 +78,15 @@ exports.editItem = (req, res, next) => {
     Item.findByPk(itemid)
     .then(result => {
       console.log(result);
-      const item = result[0];
-      if (!result) { return res.redirect('/');}
+      const item = result;
+      if (!result) { return res.redirect('/');} else {
       res.render('edit-item', {
-        todo: item,
+        todo: item.dataValues,
         pageTitle: 'Edit Item',
         editing: editMode,
         isAuthenticated: req.session.isAuthenticated
-      });
+        });
+      }
     })
     .catch(err => console.log(err));
         
