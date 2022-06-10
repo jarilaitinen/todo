@@ -62,23 +62,20 @@ exports.postSignUp = (req, res, next) => {
     if (user) {
       console.log('User with this email already exists');
       return res.redirect('/create-account');
-    }
-    return bcrypt
-      .hash(pwd, 12)
-      .then( hashedPassword => { 
+    } 
+    return bcrypt.hash(pwd, 12)
+    })
+    .then( hashedPassword => { 
         User.create({
         email: email,
         name: name,
         pwd: hashedPassword
         });
       })
-      .then(result => {
+    .then(result => {
         res.redirect('/login');
       })
-      .catch(err => console.log(err));  
-    
-  })
-  .catch(err => console.log(err));
+    .catch(err => console.log(err));  
   }
 };
 
@@ -92,18 +89,27 @@ exports.putNewPassword = (req, res, next) => {
         res.redirect('/change-pwd');
     }
     console.log(id, oldPwd, newPwd);
-    User.findByPk(id).then(user => {
-        if (user.pwd === oldPwd) {
-            user.pwd = newPwd;
-            return user.save();
-        } else {
+    User.findByPk(id)
+    .then(user => {
+        bcrypt.compare(oldPwd, user.pwd)
+        .then(match => {
+          if (match) {
+            bcrypt
+            .hash(newPwd, 12)
+            .then(hashedPwd => {
+              user.pwd = hashedPwd;
+              return user.save();
+            })
+            .catch(err => console.log(err));            
+          } else {
             console.log('Old password was incorrect');
             res.redirect('/change-pwd'); 
-        }
-    })
-    .then(result => {
-      console.log(result);
-      res.redirect('/');
+          }
+        })        
+      })
+      .then(result => {
+        console.log(result);
+        res.redirect('/');
     })
     .catch(err => console.log(err));
   };
