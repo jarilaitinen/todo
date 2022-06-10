@@ -9,5 +9,11 @@
             <li class="main-header__item"><a href="/login">Login</a></li>
             <% } %>
         </ul>
+
+        <% if (isAuthenticated) { %>
+            <div> 
+                <h2 class="main-header__greeting">Hi <%= username %></h2>
+            </div>
+        <% } %>
     </nav>
 </header>

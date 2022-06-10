@@ -6,7 +6,8 @@ exports.getAddItem = (req, res, next) => {
     res.render('edit-item', {
       pageTitle: 'Add New Item',
       editing: false,
-      isAuthenticated: req.session.isAuthenticated
+      isAuthenticated: req.session.isAuthenticated,
+      username: req.user.name
     });
 };
 
@@ -34,7 +35,8 @@ exports.getItems = (req, res, next) => {
     res.render('todo', {
       todos: result,
       pageTitle: 'To-do list',
-      isAuthenticated: req.session.isAuthenticated
+      isAuthenticated: req.session.isAuthenticated,
+      username: req.user.name
   });
   }).catch(err => console.log(err));
   } else {
@@ -57,7 +59,8 @@ exports.getFilteredItems = (req, res, next) => {
     res.render('todo', {
       todos: result,
       pageTitle: 'To-do list',
-      isAuthenticated: req.session.isAuthenticated
+      isAuthenticated: req.session.isAuthenticated,
+      username: req.user.name
   });
 })
   .catch(err => console.log(err));
@@ -66,7 +69,8 @@ exports.getFilteredItems = (req, res, next) => {
   res.render('todo', {
     todos: result,
     pageTitle: 'To-do list',
-    isAuthenticated: req.session.isAuthenticated
+    isAuthenticated: req.session.isAuthenticated,
+    username: req.user.name
 });
 }).catch(err => console.log(err));  
 };
@@ -84,7 +88,8 @@ exports.editItem = (req, res, next) => {
         todo: item.dataValues,
         pageTitle: 'Edit Item',
         editing: editMode,
-        isAuthenticated: req.session.isAuthenticated
+        isAuthenticated: req.session.isAuthenticated,
+        username: req.user.name
         });
       }
     })
