@@ -20,10 +20,10 @@ router.get('/login', (req, res, next) => {
 });
 
 // post login
-router.post('/api/v1/signin', userController.postLogin);
+router.post('/login', userController.postLogin);
 
 // post logout
-router.post('/api/v1/signout',(req, res, next) => {
+router.post('/logout',(req, res, next) => {
     req.session.destroy(() => {
         res.redirect('/');  
     });  
@@ -33,7 +33,7 @@ router.post('/api/v1/signout',(req, res, next) => {
 router.get('/create-account', userController.getSignUp);
 
 // create new user
-router.post('/api/v1/signup', userController.postSignUp);
+router.post('/create-account', userController.postSignUp);
 
 // /change-pwd
 router.get('/change-pwd', (req, res, next) => {
@@ -44,6 +44,6 @@ router.get('/change-pwd', (req, res, next) => {
 });
 
 // change password
-router.post('/api/v1/changePassword', userController.putNewPassword);
+router.post('/change-pwd', userController.putNewPassword);
 
 module.exports = router;

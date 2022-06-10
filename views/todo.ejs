@@ -15,7 +15,7 @@
         <% if (isAuthenticated) { %>
         <div id="list-content">
             <h1>My To-do List</h1>
-            <form action="/api/v1/todos" method="GET">
+            <form action="/todos" method="GET">
                 <label for="taskstatus">Show items by status:</label>
                 <select id="taskstatus" name="taskstatus">
                     <option value="notstarted">not started</option>
