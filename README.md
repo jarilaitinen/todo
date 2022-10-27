@@ -1,5 +1,5 @@
 # todo
- A simple to-do app. Create an account and login to start tracking your to-do items. In its current form, you will first need to install the npm dependencies, update the database reference in /util/database.js to match your postgresql server and then you can connect to the app by starting the node server in the console with node app.js and visiting localhost:3000. 
+ A simple to-do app. Create an account and login to start tracking your to-do items. In its current form, you will first need to update the database reference in /util/database.js to match your own postgresql server and then you can connect to the app on localhost by starting the node server in the console with node app.js and visiting localhost:3000. 
     
     Dependencies: 
     "bcryptjs": "^2.4.3" - password hashing
